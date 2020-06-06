@@ -3400,7 +3400,10 @@ lm.utils.copy( lm.items.Component.prototype, {
 	},
 
 	setSize: function() {
-		this.container._$setSize( this.element.width(), this.element.height() );
+   	if( this.element.is( ':visible' ) ) {
+			// Do not update size of hidden components to prevent unwanted reflows
+			this.container._$setSize( this.element.width(), this.element.height() );
+		}
 	},
 
 	_$init: function() {
@@ -3437,6 +3440,7 @@ lm.utils.copy( lm.items.Component.prototype, {
 		return null;
 	}
 });
+
 lm.items.Root = function( layoutManager, config, containerElement ) {
 	lm.items.AbstractContentItem.call( this, layoutManager, config, null );
 	this.isRoot = true;
